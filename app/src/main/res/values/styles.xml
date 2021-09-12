@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="EditTextMaterialLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+         <item name="android:layout_width" >0dp</item>
+         <item name="android:layout_height" >wrap_content</item>
+         <item name="android:layout_marginStart" >@dimen/default_margin_container</item>
+         <item name="android:layout_marginEnd" >@dimen/default_margin_container</item>
+         <item name="boxCornerRadiusTopStart" >@dimen/default_margin_container</item>
+         <item name="boxCornerRadiusTopEnd" >@dimen/default_margin_container</item>
+         <item name="boxCornerRadiusBottomEnd" >@dimen/default_margin_container</item>
+         <item name="boxCornerRadiusBottomStart" >@dimen/default_margin_container</item>
+         <item name="boxStrokeColor" >@color/my_stroke_color</item>
+         <item name="hintTextColor" >@color/my_stroke_color</item>
+
+    </style>
+
+    <style name="ExposedDropdownMenu" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart" >@dimen/default_margin_item</item>
+        <item name="boxCornerRadiusTopEnd" >@dimen/default_margin_item</item>
+        <item name="boxCornerRadiusBottomEnd" >@dimen/default_margin_item</item>
+        <item name="boxCornerRadiusBottomStart" >@dimen/default_margin_item</item>
+        <item name="boxStrokeColor" >@color/my_stroke_color</item>
+        <item name="hintTextColor" >@color/my_stroke_color</item>
+
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/default_margin_container</item>
+        <item name="android:layout_marginVertical">@dimen/default_margin_container</item>
+        <item name="android:alpha">0.25</item>
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+
+    <style name="Arrow" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">?attr/colorSecondary</item>
+    </style>
+
+    <style name="ShapeAppearance.NotesApp.LargeComponent"
+        parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+</resources>

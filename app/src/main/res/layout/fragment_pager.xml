@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_notes_list"
+        android:paddingTop="@dimen/default_margin_item"
+        android:paddingEnd="@dimen/default_margin_container"
+        android:paddingStart="@dimen/default_margin_container"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/note_card_item"
+        android:clipToPadding="false"
+        android:paddingBottom="150dp"
+        />
+
+</FrameLayout>

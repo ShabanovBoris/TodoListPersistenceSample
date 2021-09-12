@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.bosha.notespersistencesample.presentation.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard"
+        >
+        <action
+            android:id="@+id/action_dashboardFragment_to_additionFragment"
+            app:destination="@id/additionFragment"
+
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_filterDialog"
+            app:destination="@id/filterDialog" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/additionFragment"
+        android:name="com.bosha.notespersistencesample.presentation.ui.addition.AdditionFragment"
+        android:label="Add note"
+        tools:layout="@layout/fragment_addition" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/pagerFragment"
+        android:name="com.bosha.notespersistencesample.presentation.ui.dashboard.pager.PagerFragment"
+        android:label="fragment_pager"
+        tools:layout="@layout/fragment_pager" />
+    <dialog
+        android:id="@+id/filterDialog"
+        android:name="com.bosha.notespersistencesample.presentation.ui.dashboard.filter.FilterBottomSheet"
+        android:label="filter"
+        tools:layout="@layout/fragment_filter_bottom_sheet" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.bosha.notespersistencesample.presentation.ui.AboutFragment"
+        android:label="About" >
+        <action
+            android:id="@+id/action_aboutFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+
+</navigation>

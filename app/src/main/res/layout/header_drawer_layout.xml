@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        xmlns:tools="http://schemas.android.com/tools"
+        >
+
+
+        <View
+            android:id="@+id/materialTextView3"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/color_priority"
+            android:gravity="bottom|end"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            tools:src = "@tools:sample/avatars"
+            android:elevation="4dp"
+            android:layout_margin="@dimen/default_margin_item"/>
+
+    </FrameLayout>
+

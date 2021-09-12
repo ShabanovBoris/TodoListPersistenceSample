@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="@id/tv_choose_color"
+    app:layout_constraintStart_toEndOf="@id/tv_choose_color"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="none"
+
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin_container"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="4dp"
+        android:layout_margin="@dimen/default_margin_item"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="800dp"
+                android:layout_height="64dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/hue_small" />
+
+            <LinearLayout
+                android:id="@+id/layout_color_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <View
+                    android:id="@+id/color1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color1"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"
+                    />
+                <View
+                    android:id="@+id/color2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color2"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color3"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color4"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color5"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color5"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color6"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color6"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color7"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color7"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color8"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color8"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color9"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color9"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color10"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color10"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color11"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color11"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color12"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color12"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color13"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color13"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color14"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color14"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color15"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color15"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:id="@+id/color16"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/color16"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</HorizontalScrollView>
