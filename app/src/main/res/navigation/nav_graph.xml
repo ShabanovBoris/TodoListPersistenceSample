@@ -24,11 +24,6 @@
         <action
             android:id="@+id/action_dashboardFragment_to_filterDialog"
             app:destination="@id/filterDialog" />
-        <action
-            android:id="@+id/action_dashboardFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
     </fragment>
 
 
@@ -50,15 +45,9 @@
         android:label="filter"
         tools:layout="@layout/fragment_filter_bottom_sheet" />
     <fragment
-        android:id="@+id/aboutFragment"
-        android:name="com.bosha.notespersistencesample.presentation.ui.AboutFragment"
-        android:label="About" >
-        <action
-            android:id="@+id/action_aboutFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:id="@+id/settingsFragment"
+        android:name="com.bosha.notespersistencesample.presentation.ui.settings.SettingsFragment"
+        android:label="" />
 
 
 </navigation>

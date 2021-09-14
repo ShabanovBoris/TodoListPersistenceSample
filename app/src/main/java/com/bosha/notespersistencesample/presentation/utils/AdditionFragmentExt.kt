@@ -11,11 +11,6 @@ fun AdditionFragment.validateFields(): Boolean {
         binding.tvTitle.error = "Empty title"
         return false
     }
-    //color button
-    if (checkedColor == null) {
-        Toast.makeText(binding.root.context, "Please, choose the color", Toast.LENGTH_SHORT).show()
-        return false
-    }
 
     return true
 }

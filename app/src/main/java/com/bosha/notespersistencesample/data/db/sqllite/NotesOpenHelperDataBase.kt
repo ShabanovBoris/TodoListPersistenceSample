@@ -13,13 +13,13 @@ import com.bosha.notespersistencesample.data.dto.NoteEntity
 
 private const val SQL_CREATE_ENTRIES =
     "CREATE TABLE ${DbContract.TABLE_NAME} (" +
-            "${DbContract.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "${DbContract.TITLE} TEXT," +
-            "${DbContract.COLOR_RES} INTEGER," +
-            "${DbContract.DATE} INTEGER," +
-            "${DbContract.DESCRIPTION} TEXT," +
-            "${DbContract.PRIORITY} INTEGER," +
-            "${DbContract.TYPE} INTEGER)"
+            "${DbContract.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+            "${DbContract.TITLE} TEXT NOT NULL," +
+            "${DbContract.COLOR_RES} INTEGER NOT NULL," +
+            "${DbContract.DATE} INTEGER NOT NULL," +
+            "${DbContract.DESCRIPTION} TEXT NOT NULL," +
+            "${DbContract.PRIORITY} INTEGER NOT NULL," +
+            "${DbContract.TYPE} INTEGER NOT NULL)"
 
 private const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${DbContract.TABLE_NAME}"
 

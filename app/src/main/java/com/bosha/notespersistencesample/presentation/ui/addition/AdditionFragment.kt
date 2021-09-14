@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.requireViewById
 import androidx.core.view.forEach
 import androidx.core.view.get
@@ -91,7 +92,7 @@ class AdditionFragment : Fragment() {
                 binding.apply {
                     val note = Note(
                         title = tvTitle.editText?.text.toString(),
-                        colorId = requireNotNull(checkedColor),
+                        colorId = checkedColor ?: R.color.default_color,
                         createDate = Date().time,
                         id = if (isEdit) noteArgument?.id.toString() else "",
                         description = etDescription.editText?.text?.toString() ?: "",

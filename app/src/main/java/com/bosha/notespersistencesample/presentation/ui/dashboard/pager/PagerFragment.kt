@@ -98,7 +98,6 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
                                 ?.let {
                                     if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
                                 }
-                            Log.e("TAG", "handleResult: $result", )
                         }
                         Note.Type.DOING -> adapter.submitList(result.doingList) {
                             result.doingList

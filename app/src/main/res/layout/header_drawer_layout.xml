@@ -12,7 +12,7 @@
             android:id="@+id/materialTextView3"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/color_priority"
+            android:background="@drawable/color_attachment"
             android:gravity="bottom|end"/>
 
 

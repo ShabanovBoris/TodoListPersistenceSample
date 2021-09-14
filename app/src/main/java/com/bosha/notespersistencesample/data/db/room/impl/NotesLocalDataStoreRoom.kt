@@ -1,5 +1,6 @@
 package com.bosha.notespersistencesample.data.db.room.impl
 
+import android.util.Log
 import com.bosha.notespersistencesample.data.db.room.NotesRoomDao
 import com.bosha.notespersistencesample.data.db.NotesLocalDataStore
 import com.bosha.notespersistencesample.data.mappers.NotesEntityMapper
@@ -13,13 +14,15 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
-class NotesLocalDataStoreRoom @Inject constructor(
+class NotesLocalDataStoreRoom (
     private val dao: NotesRoomDao,
-    @param: Named(DISPATCHER_IO)
     private val dispatcher: CoroutineDispatcher,
     private val notesEntityMapper: NotesEntityMapper
 ) : NotesLocalDataStore {
 
+    init {
+        Log.e("TAG", "NotesLocalDataStoreRoom: created", )
+    }
     override suspend fun getNotes(): Flow<List<Note>> =
         flow { emitAll(dao.getNotes()) }
             .catch { logError(currentCoroutineContext(), it, this) }

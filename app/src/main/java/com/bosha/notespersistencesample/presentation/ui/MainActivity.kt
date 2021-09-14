@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), MainScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         mainScreenComponent = (application as NotesApp).appComponent
-            .plusMainScreenComponent().create().also {
+            .plusMainScreenComponent().create(this).also {
                 it.inject(this)
             }
 
@@ -53,12 +53,7 @@ class MainActivity : AppCompatActivity(), MainScreen {
         super.onStart()
         val drawerLayout: DrawerLayout = binding.drawerLayout
         navController = findNavController(R.id.nav_host_fragment_container)
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.aboutFragment,
-                R.id.dashboardFragment
-            ), drawerLayout
-        )
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         NavigationUI.setupWithNavController(binding.navViewDrawer, navController)
         /**
          * Set up automatically change back/hamburger button in toolbar for drawer
@@ -88,20 +83,6 @@ class MainActivity : AppCompatActivity(), MainScreen {
 //            }
 //            true
 //        }
-
-
-        lifecycleScope.launchWhenStarted {
-            NotesLocalDataStoreOpenHelper(
-                NotesOpenHelperDao(this@MainActivity),
-                Dispatchers.IO,
-                NotesEntityMapper()
-            ).getNotes()
-                .onEach {
-                    Log.e("TAG", "onStart: $it",)
-                }
-                .launchIn(this)
-        }
-
     }
 
 

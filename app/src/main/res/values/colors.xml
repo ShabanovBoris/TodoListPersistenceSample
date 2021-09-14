@@ -28,6 +28,7 @@
     <color name="color14">#BF00FF</color>
     <color name="color15">#FF00BF</color>
     <color name="color16">#FF0080</color>
+    <color name="default_color">#00000000</color>
 
 
 </resources>

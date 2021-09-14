@@ -11,7 +11,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class RoomModule {
+class DataBaseModule {
 
     @ScreenScope
     @Provides
@@ -26,13 +26,12 @@ class RoomModule {
 
     @ScreenScope
     @Provides
-    fun provideNotesDao(notesDataBase: NotesRoomDataBase): NotesRoomDao =
+    fun provideNotesRoomDao(notesDataBase: NotesRoomDataBase): NotesRoomDao =
         notesDataBase.notesDao()
 
 
-    //TODO
     @ScreenScope
     @Provides
-    fun provideNotesSQLiteDao(appContext: Context): NotesOpenHelperDao =
+    fun provideNotesOpenHelperDao(appContext: Context): NotesOpenHelperDao =
         NotesOpenHelperDao(appContext)
 }

@@ -10,12 +10,10 @@
 
         />
     <item
-        android:id="@+id/aboutFragment"
+        android:id="@+id/settingsFragment"
         android:icon="@android:drawable/ic_menu_info_details"
-        android:title="@string/title_about"
+        android:title="@string/settings"
         app:showAsAction="always" />
-
-
 
 
     <group android:id="@+id/clearDataGroup">

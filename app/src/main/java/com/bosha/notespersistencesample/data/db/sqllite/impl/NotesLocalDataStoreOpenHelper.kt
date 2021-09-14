@@ -1,5 +1,6 @@
 package com.bosha.notespersistencesample.data.db.sqllite.impl
 
+import android.util.Log
 import com.bosha.notespersistencesample.data.db.NotesLocalDataStore
 import com.bosha.notespersistencesample.data.db.sqllite.NotesOpenHelperDao
 import com.bosha.notespersistencesample.data.mappers.NotesEntityMapper
@@ -18,6 +19,11 @@ class NotesLocalDataStoreOpenHelper @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
     private val notesEntityMapper: NotesEntityMapper
 ) : NotesLocalDataStore {
+
+    init {
+        Log.e("TAG", "NotesLocalDataStoreOpenHelper: created", )
+    }
+
     override suspend fun getNotes(): Flow<List<Note>> =
         flow {
             dao.dataFlow.collect {
