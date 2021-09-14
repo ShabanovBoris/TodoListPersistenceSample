@@ -1,7 +1,7 @@
-package com.bosha.notespersistencesample.data.db.impl
+package com.bosha.notespersistencesample.data.db.room.impl
 
-import com.bosha.notespersistencesample.data.db.NotesDao
-import com.bosha.notespersistencesample.data.db.NotesLocalDataSource
+import com.bosha.notespersistencesample.data.db.room.NotesRoomDao
+import com.bosha.notespersistencesample.data.db.NotesLocalDataStore
 import com.bosha.notespersistencesample.data.mappers.NotesEntityMapper
 import com.bosha.notespersistencesample.data.utils.logError
 import com.bosha.notespersistencesample.domain.common.DISPATCHER_IO
@@ -13,12 +13,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
-class NotesLocalDataSourceImpl @Inject constructor(
-    private val dao: NotesDao,
+class NotesLocalDataStoreRoom @Inject constructor(
+    private val dao: NotesRoomDao,
     @param: Named(DISPATCHER_IO)
     private val dispatcher: CoroutineDispatcher,
     private val notesEntityMapper: NotesEntityMapper
-) : NotesLocalDataSource {
+) : NotesLocalDataStore {
 
     override suspend fun getNotes(): Flow<List<Note>> =
         flow { emitAll(dao.getNotes()) }

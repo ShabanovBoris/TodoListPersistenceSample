@@ -3,7 +3,7 @@ package com.bosha.notespersistencesample.data.db
 import com.bosha.notespersistencesample.domain.entities.Note
 import kotlinx.coroutines.flow.Flow
 
-interface NotesLocalDataSource {
+interface NotesLocalDataStore {
 
     suspend fun getNotes(): Flow<List<Note>>
 

@@ -2,7 +2,7 @@ package com.bosha.notespersistencesample.data.db
 
 import android.provider.BaseColumns
 
-object DbContract {
+internal object DbContract: BaseColumns {
     const val DATABASE_NAME = "notes.db"
 
     const val TABLE_NAME = "notes_table"

@@ -3,7 +3,6 @@ package com.bosha.notespersistencesample.data.dto
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import com.bosha.notespersistencesample.data.db.DbContract
 
 @Entity(tableName = DbContract.TABLE_NAME)

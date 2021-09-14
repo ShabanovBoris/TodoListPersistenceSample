@@ -1,6 +1,6 @@
 package com.bosha.notespersistencesample.data.reposetories
 
-import com.bosha.notespersistencesample.data.db.NotesLocalDataSource
+import com.bosha.notespersistencesample.data.db.NotesLocalDataStore
 import com.bosha.notespersistencesample.domain.common.NotesResult
 import com.bosha.notespersistencesample.domain.entities.Note
 import com.bosha.notespersistencesample.domain.repositories.NotesRepository
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class NotesRepositoryImpl @Inject constructor(
-    private val localDataSource: NotesLocalDataSource
+    private val localDataSource: NotesLocalDataStore
 ): NotesRepository {
 
    override suspend fun getNotesCache(): Flow<NotesResult> {

@@ -1,12 +1,12 @@
-package com.bosha.notespersistencesample.data.db
+package com.bosha.notespersistencesample.data.db.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.bosha.notespersistencesample.data.dto.NoteEntity
 
 @Database(entities = [NoteEntity::class], version = 1)
-abstract class NotesDataBase: RoomDatabase() {
+abstract class NotesRoomDataBase: RoomDatabase() {
 
-    abstract fun notesDao(): NotesDao
+    abstract fun notesDao(): NotesRoomDao
 
 }

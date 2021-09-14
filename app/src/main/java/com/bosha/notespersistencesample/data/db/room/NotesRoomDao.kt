@@ -1,4 +1,4 @@
-package com.bosha.notespersistencesample.data.db
+package com.bosha.notespersistencesample.data.db.room
 
 
 import androidx.room.*
@@ -6,7 +6,7 @@ import com.bosha.notespersistencesample.data.dto.NoteEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface NotesDao {
+interface NotesRoomDao {
 
     @Query("SELECT * FROM notes_table ORDER BY date DESC")
     fun getNotes(): Flow<List<NoteEntity>>

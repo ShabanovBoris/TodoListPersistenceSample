@@ -1,9 +1,10 @@
 package com.bosha.notespersistencesample.presentation.ui
 
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,11 +12,15 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.bosha.notespersistencesample.NotesApp
 import com.bosha.notespersistencesample.R
+import com.bosha.notespersistencesample.data.db.sqllite.NotesOpenHelperDao
+import com.bosha.notespersistencesample.data.db.sqllite.impl.NotesLocalDataStoreOpenHelper
+import com.bosha.notespersistencesample.data.mappers.NotesEntityMapper
 import com.bosha.notespersistencesample.databinding.ActivityMainBinding
 import com.bosha.notespersistencesample.presentation.di.MainScreen
 import com.bosha.notespersistencesample.presentation.di.MainScreenComponent
-import com.google.android.material.navigation.NavigationView
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 class MainActivity : AppCompatActivity(), MainScreen {
@@ -26,9 +31,9 @@ class MainActivity : AppCompatActivity(), MainScreen {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: MainViewModel by viewModels { viewModelFactory }
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelFactory
+//    private val viewModel: MainViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,11 +53,13 @@ class MainActivity : AppCompatActivity(), MainScreen {
         super.onStart()
         val drawerLayout: DrawerLayout = binding.drawerLayout
         navController = findNavController(R.id.nav_host_fragment_container)
-        appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.aboutFragment,
-            R.id.dashboardFragment
-        ), drawerLayout)
-        NavigationUI.setupWithNavController(binding.navViewDrawer,navController)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.aboutFragment,
+                R.id.dashboardFragment
+            ), drawerLayout
+        )
+        NavigationUI.setupWithNavController(binding.navViewDrawer, navController)
         /**
          * Set up automatically change back/hamburger button in toolbar for drawer
          */
@@ -60,8 +67,6 @@ class MainActivity : AppCompatActivity(), MainScreen {
             navController,
             appBarConfiguration
         )
-
-
 
         //TODO refactor with proper id's
 //        binding.navViewDrawer.setNavigationItemSelectedListener {
@@ -83,6 +88,20 @@ class MainActivity : AppCompatActivity(), MainScreen {
 //            }
 //            true
 //        }
+
+
+        lifecycleScope.launchWhenStarted {
+            NotesLocalDataStoreOpenHelper(
+                NotesOpenHelperDao(this@MainActivity),
+                Dispatchers.IO,
+                NotesEntityMapper()
+            ).getNotes()
+                .onEach {
+                    Log.e("TAG", "onStart: $it",)
+                }
+                .launchIn(this)
+        }
+
     }
 
 
