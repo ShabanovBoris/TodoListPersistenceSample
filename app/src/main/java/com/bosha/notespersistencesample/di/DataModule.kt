@@ -3,13 +3,13 @@ package com.bosha.notespersistencesample.di
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
-import com.bosha.notespersistencesample.data.reposetories.RepositoryFactory
 import com.bosha.notespersistencesample.data.db.room.NotesRoomDao
 import com.bosha.notespersistencesample.data.db.room.impl.NotesLocalDataStoreRoom
 import com.bosha.notespersistencesample.data.db.sqllite.NotesOpenHelperDao
 import com.bosha.notespersistencesample.data.db.sqllite.impl.NotesLocalDataStoreOpenHelper
 import com.bosha.notespersistencesample.data.mappers.NotesEntityMapper
 import com.bosha.notespersistencesample.data.reposetories.NotesRepositoryMediator
+import com.bosha.notespersistencesample.data.reposetories.RepositoryFactory
 import com.bosha.notespersistencesample.di.scopes.ScreenScope
 import com.bosha.notespersistencesample.domain.common.DISPATCHER_IO
 import com.bosha.notespersistencesample.domain.repositories.NotesRepository
@@ -47,5 +47,4 @@ class DataModule {
         factory: RepositoryFactory
     ): NotesRepository =
         NotesRepositoryMediator(context, lifecycleOwner, factory)
-
 }

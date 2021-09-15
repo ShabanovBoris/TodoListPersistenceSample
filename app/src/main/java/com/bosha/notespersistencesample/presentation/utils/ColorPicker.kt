@@ -1,9 +1,13 @@
 package com.bosha.notespersistencesample.presentation.utils
 
 import android.view.View
+import android.widget.LinearLayout
+import androidx.core.view.forEach
 import com.bosha.notespersistencesample.R
 
-class ColorPickerMap() {
+
+
+class ColorPicker() {
 
     /**
      *  view's id and color's id
@@ -27,8 +31,15 @@ class ColorPickerMap() {
         R.id.color16 to R.color.color16,
     )
 
-    fun pickedColor( checkedView: View) =  mMap[checkedView.id]
+    fun getPickedColor(checkedView: View) =  mMap[checkedView.id]
 
-
-
+    companion object{
+        fun LinearLayout.doOnColorClick(action: (View) -> Unit){
+            forEach {
+                it.setOnClickListener { view ->
+                    action(view)
+                }
+            }
+        }
+    }
 }

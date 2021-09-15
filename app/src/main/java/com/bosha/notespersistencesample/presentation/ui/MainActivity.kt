@@ -1,7 +1,6 @@
 package com.bosha.notespersistencesample.presentation.ui
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity(), MainScreen {
     }
 
     private fun initDataStoreChangeListener() {
-        DataStorePreference(this,this){
+        DataStorePreference(this.applicationContext,this){
             viewModel.onDataStoreChanged()
         }
     }

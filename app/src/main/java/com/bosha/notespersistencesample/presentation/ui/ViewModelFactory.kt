@@ -2,12 +2,12 @@ package com.bosha.notespersistencesample.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bosha.notespersistencesample.domain.interactors.AddEditNotesInteractor
-import com.practice.domain.interactors.DeleteNotesInteractor
-import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
 import com.bosha.notespersistencesample.di.scopes.ScreenScope
+import com.bosha.notespersistencesample.domain.interactors.AddEditNotesInteractor
+import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
 import com.bosha.notespersistencesample.presentation.ui.addition.AdditionViewModel
 import com.bosha.notespersistencesample.presentation.ui.dashboard.DashboardViewModel
+import com.practice.domain.interactors.DeleteNotesInteractor
 import javax.inject.Inject
 
 @ScreenScope
@@ -26,14 +26,12 @@ class ViewModelFactory @Inject constructor(
 
         AdditionViewModel::class.java -> AdditionViewModel(
             addEditNotesInteractor,
-            deleteNotesInteractor,
-            getNotesInteractor
+            deleteNotesInteractor
         )
 
         DashboardViewModel::class.java -> DashboardViewModel(
             getNotesInteractor
         )
-
 
         else -> error("$modelClass is not registered ViewModel")
     } as T

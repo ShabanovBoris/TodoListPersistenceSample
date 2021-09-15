@@ -10,7 +10,6 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat.requireViewById
-import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,7 +21,8 @@ import com.bosha.notespersistencesample.databinding.FragmentAdditionBinding
 import com.bosha.notespersistencesample.domain.entities.Note
 import com.bosha.notespersistencesample.presentation.di.MainScreen
 import com.bosha.notespersistencesample.presentation.ui.ViewModelFactory
-import com.bosha.notespersistencesample.presentation.utils.ColorPickerMap
+import com.bosha.notespersistencesample.presentation.utils.ColorPicker
+import com.bosha.notespersistencesample.presentation.utils.ColorPicker.Companion.doOnColorClick
 import com.bosha.notespersistencesample.presentation.utils.validateFields
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -74,7 +74,7 @@ class AdditionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSpinner()
+        initPrioritySpinner()
         initColorPicker()
         //if edit mode enabled, fill in the fields with the note data
         if (isEdit) onEditInitFields()
@@ -123,14 +123,19 @@ class AdditionFragment : Fragment() {
         binding.apply {
             title = note.title
             tvTitle.editText?.text?.append(title)
+
             etDescription.editText?.text?.append(note.description)
+
             rgType.check(rgType[note.type].id)
+
             binding.priorityDropdown.setText(
                 Note.Priority.values()[note.priority].toString(),
                 false
             )
-            checkedColor = note.colorId
+
             tvCreateDate.append(" ${Date(note.createDate).toISOFormat()}")
+
+            checkedColor = note.colorId
             bColorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
 
             binding.bDelete.setOnClickListener {
@@ -144,23 +149,24 @@ class AdditionFragment : Fragment() {
             it.visibility = View.GONE
             binding.frameColorPicker.visibility = View.VISIBLE
         }
-        binding.includeColorPicker.layoutColorHolder.forEach {
-            it.setOnClickListener {
-                binding.bColorButton.apply {
-                    checkedColor = ColorPickerMap().pickedColor(it)
-                    setBackgroundColor(
-                        requireContext().getColor(
-                            checkedColor ?: R.color.secondaryColor_600
-                        )
+        /**
+         * Set clicklistener on each slot from [ColorPicker]
+         */
+        binding.includeColorPicker.layoutColorHolder.doOnColorClick {
+            binding.bColorButton.apply {
+                checkedColor = ColorPicker().getPickedColor(it)
+                setBackgroundColor(
+                    requireContext().getColor(
+                        checkedColor ?: R.color.secondaryColor_600
                     )
-                    visibility = View.VISIBLE
-                }
-                binding.frameColorPicker.visibility = View.GONE
+                )
+                visibility = View.VISIBLE
             }
+            binding.frameColorPicker.visibility = View.GONE
         }
     }
 
-    private fun initSpinner() {
+    private fun initPrioritySpinner() {
         val priorityList = listOf(
             Note.Priority.LOW.name,
             Note.Priority.MEDIUM.name,
@@ -183,8 +189,7 @@ class AdditionFragment : Fragment() {
         when (actionState) {
             AdditionViewModel.ActionState.COMPLETE -> findNavController().navigateUp()
 
-            AdditionViewModel.ActionState.EMPTY -> {
-            }
+            AdditionViewModel.ActionState.EMPTY -> {}
 
             AdditionViewModel.ActionState.LOADING ->
                 Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)

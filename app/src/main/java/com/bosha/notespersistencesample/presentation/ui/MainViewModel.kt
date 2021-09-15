@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bosha.notespersistencesample.data.utils.logError
 import com.bosha.notespersistencesample.domain.common.NotesResult
-import com.practice.domain.interactors.DeleteNotesInteractor
+import com.bosha.notespersistencesample.domain.entities.Note
 import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
+import com.practice.domain.interactors.DeleteNotesInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class MainViewModel(
     val notesList get() = _notesList.asStateFlow()
 
     // region search parameters
-    var mOnlyNotCompleted = false
+    var mOnlyHigh = false
     var mColorSearchFilter: Int? = null
     var mSearchByTitle = ""
     // endregion
@@ -32,7 +33,7 @@ class MainViewModel(
     }
 
     private fun initList() = viewModelScope.launch(exceptionHandler) {
-            getNotesCache()
+        getNotesCache()
     }
 
     private fun getNotesCache() = viewModelScope.launch(exceptionHandler) {
@@ -48,10 +49,10 @@ class MainViewModel(
 
     fun search(
         searchByTitle: String = mSearchByTitle,
-        onlyNotCompleted: Boolean = mOnlyNotCompleted,
+        onlyNotCompleted: Boolean = mOnlyHigh,
         colorSearchFilter: Int? = mColorSearchFilter
     ) = viewModelScope.launch(exceptionHandler) {
-        mOnlyNotCompleted = onlyNotCompleted
+        mOnlyHigh = onlyNotCompleted
         mColorSearchFilter = colorSearchFilter
         mSearchByTitle = searchByTitle
         getNotesCache()
@@ -59,7 +60,7 @@ class MainViewModel(
 
     fun clearFilter() =
         viewModelScope.launch(exceptionHandler) {
-            mOnlyNotCompleted = false
+            mOnlyHigh = false
             mColorSearchFilter = null
             mSearchByTitle = ""
             getNotesCache()
@@ -71,41 +72,52 @@ class MainViewModel(
 
     fun onDataStoreChanged() {
         getNotesCache()
-        Log.e("TAG", "onDataStoreChanged: ", )
+        Log.e("TAG", "onDataStoreChanged: ")
     }
 
-    private suspend fun filter(noteTitle: String): Flow<NotesResult> = getCachedNotesInteractor.getNotesCache()
-        .onEach { mSearchByTitle = noteTitle }
-        .map { noteResult ->
-            if (noteResult is NotesResult.ValidResult) {
-                if (mSearchByTitle.isEmpty() && mColorSearchFilter == null && !mOnlyNotCompleted)
-                    return@map NotesResult.EmptySearch
+    private suspend fun filter(noteTitle: String): Flow<NotesResult> =
+        getCachedNotesInteractor.getNotesCache()
+            .onEach { mSearchByTitle = noteTitle }
+            .map { noteResult ->
+                if (noteResult is NotesResult.ValidResult) {
+                    if (mSearchByTitle.isEmpty() && mColorSearchFilter == null && !mOnlyHigh)
+                        return@map NotesResult.EmptySearch
 
-                var newNotesResult =
-                    if (mSearchByTitle.isNotEmpty()) NotesResult.ValidResult(
-                        doList = noteResult.doList?.filter { note ->
-                            note.title.contains(mSearchByTitle, true)
-                        },
-                        doingList = noteResult.doingList?.filter { note ->
-                            note.title.contains(mSearchByTitle, true)
-                        },
-                        doneList = noteResult.doneList?.filter { note ->
-                            note.title.contains(mSearchByTitle, true)
-                        }
-                    ) else noteResult
+                    var newNotesResult =
+                        if (mSearchByTitle.isNotEmpty()) NotesResult.ValidResult(
+                            doList = noteResult.doList?.filter { note ->
+                                note.title.contains(mSearchByTitle, true)
+                            },
+                            doingList = noteResult.doingList?.filter { note ->
+                                note.title.contains(mSearchByTitle, true)
+                            },
+                            doneList = noteResult.doneList?.filter { note ->
+                                note.title.contains(mSearchByTitle, true)
+                            }
+                        ) else noteResult
 
-                if (mColorSearchFilter != null) newNotesResult = newNotesResult.copy(
-                    doList = newNotesResult.doList?.filter { note -> note.colorId == mColorSearchFilter },
-                    doingList = newNotesResult.doingList?.filter { note -> note.colorId == mColorSearchFilter },
-                    doneList = newNotesResult.doneList?.filter { note -> note.colorId == mColorSearchFilter },
-                )
+                    if (mOnlyHigh) newNotesResult = newNotesResult.copy(
+                        doList = newNotesResult.doList?.filter { note -> note.priority == Note.Priority.HIGH.ordinal },
+                        doingList = newNotesResult.doingList?.filter { note -> note.priority == Note.Priority.HIGH.ordinal },
+                        doneList = newNotesResult.doneList?.filter { note -> note.priority == Note.Priority.HIGH.ordinal }
+                    )
 
-                if (newNotesResult == NotesResult.ValidResult(emptyList(), emptyList(), emptyList()))
-                    return@map NotesResult.EmptyResult
-                else newNotesResult
+                    if (mColorSearchFilter != null) newNotesResult = newNotesResult.copy(
+                        doList = newNotesResult.doList?.filter { note -> note.colorId == mColorSearchFilter },
+                        doingList = newNotesResult.doingList?.filter { note -> note.colorId == mColorSearchFilter },
+                        doneList = newNotesResult.doneList?.filter { note -> note.colorId == mColorSearchFilter },
+                    )
 
-            } else noteResult
-        }
+                    if (newNotesResult == NotesResult.ValidResult(
+                            emptyList(),
+                            emptyList(),
+                            emptyList()
+                        )
+                    ) return@map NotesResult.EmptyResult
+                    else newNotesResult
+
+                } else noteResult
+            }
 }
 
 

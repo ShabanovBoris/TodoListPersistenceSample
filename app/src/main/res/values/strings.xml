@@ -30,5 +30,6 @@
     <string name="description">description</string>
     <string name="title">title</string>
     <string name="choose_priority">choose priority</string>
+    <string name="only_high_priority">Only high priority</string>
 
 </resources>

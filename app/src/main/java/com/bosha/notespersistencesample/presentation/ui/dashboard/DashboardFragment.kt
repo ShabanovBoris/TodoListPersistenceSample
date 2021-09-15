@@ -59,14 +59,12 @@ class DashboardFragment : Fragment() {
 
         setUpViewPager()
 
-        // add new note
         binding.bottomToolBar.fabPlus.setOnClickListener {
             findNavController().navigate(
                 R.id.action_dashboardFragment_to_additionFragment
             )
         }
 
-        // filter bottom sheet
         binding.bottomToolBar.bap.setNavigationOnClickListener {
             findNavController().navigate(
                 R.id.action_dashboardFragment_to_filterDialog

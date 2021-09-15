@@ -6,15 +6,14 @@ import com.bosha.notespersistencesample.data.utils.logError
 import com.bosha.notespersistencesample.domain.entities.Note
 import com.bosha.notespersistencesample.domain.interactors.AddEditNotesInteractor
 import com.practice.domain.interactors.DeleteNotesInteractor
-import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdditionViewModel(
     private val addEditNotesInteractor: AddEditNotesInteractor,
-    private val deleteNotesInteractor: DeleteNotesInteractor,
-    private val getCachedNotesInteractor: GetCachedNotesInteractor
+    private val deleteNotesInteractor: DeleteNotesInteractor
 ) : ViewModel() {
 
     private val handler = CoroutineExceptionHandler(::logError)
@@ -25,10 +24,8 @@ class AdditionViewModel(
 
     fun addNote(note: Note) =
         viewModelScope.launch(handler) {
-            _actionStateFlow.update { ActionState.LOADING }
-
+            _actionStateFlow.value = ActionState.LOADING
             addEditNotesInteractor.insertNoteCache(note)
-
             _actionStateFlow.value = ActionState.COMPLETE
         }
 

@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bosha.notespersistencesample.R
-import com.bosha.notespersistencesample.data.utils.DataStorePreference
 import com.bosha.notespersistencesample.databinding.FragmentPagerBinding
 import com.bosha.notespersistencesample.domain.common.NotesResult
 import com.bosha.notespersistencesample.domain.entities.Note
@@ -25,10 +24,6 @@ import javax.inject.Inject
 
 
 class PagerFragment : Fragment(R.layout.fragment_pager) {
-
-    companion object {
-        const val TYPE = "type"
-    }
 
     private var _binding: FragmentPagerBinding? = null
     private val binding get() = checkNotNull(_binding)
@@ -105,7 +100,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
 
                 when (argNoteType) {
                     Note.Type.DO -> adapter.submitList(result.doList) {
-                        //scroll up when list have new item
+                        //scroll up when list has new item
                         result.doList
                             ?.let {
                                 if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
@@ -128,5 +123,9 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
             NotesResult.EmptySearch -> {
             }
         }
+    }
+
+    companion object {
+        const val TYPE = "type"
     }
 }

@@ -8,7 +8,6 @@ import com.bosha.notespersistencesample.domain.entities.Note
 class TypeNoteAdapter(fragment: Fragment)
     : FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
 
-
     override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {

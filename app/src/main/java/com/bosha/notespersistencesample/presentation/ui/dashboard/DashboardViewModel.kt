@@ -11,10 +11,8 @@ import kotlinx.coroutines.flow.*
 class DashboardViewModel(
     private val getCachedNotesInteractor: GetCachedNotesInteractor
 ) : ViewModel() {
-
-
     /**
-     * Just returns type of latest changed item
+     * Just returns [Type] of latest changed note item
      */
     val changesAlertFlow: SharedFlow<Int> by lazy(LazyThreadSafetyMode.NONE) {
         flow { emitAll(getCachedNotesInteractor.getNotesCache()) }
