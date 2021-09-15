@@ -83,6 +83,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rg_type" />
 
+    <View
+        android:id="@+id/divider4"
+        style="@style/Divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_priority" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/b_submit"
         android:layout_width="wrap_content"
@@ -130,7 +136,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tv_title"
         style="@style/EditTextMaterialLayout"
-        android:hint="title"
+        android:hint="@string/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -147,7 +153,7 @@
         android:id="@+id/et_description"
         style="@style/EditTextMaterialLayout"
         android:layout_marginTop="@dimen/default_margin_container"
-        android:hint="description"
+        android:hint="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
@@ -162,11 +168,12 @@
         style="@style/ExposedDropdownMenu"
         android:layout_width="180dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/default_margin_container"
-        android:hint="choose priority"
+        android:hint="@string/choose_priority"
         app:boxStrokeColor="@color/my_stroke_color"
-        app:layout_constraintStart_toStartOf="@+id/tv_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_priority">
+
+        app:layout_constraintBottom_toBottomOf="@+id/tv_priority"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_priority">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/priority_dropdown"
@@ -204,6 +211,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin_container"
+        android:paddingVertical="@dimen/default_margin_container"
         android:paddingStart="@dimen/default_margin_item"
         android:text="@string/priority"
         android:textAppearance="?attr/textAppearanceHeadline6"
@@ -219,10 +227,10 @@
         android:paddingStart="@dimen/default_margin_item"
         android:text="@string/create_date"
         android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintStart_toStartOf="@+id/tv_title"
-        app:layout_constraintTop_toBottomOf="@+id/s_priority_layout"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/divider4"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

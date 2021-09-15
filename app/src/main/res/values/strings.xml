@@ -27,5 +27,8 @@
 
     <!-- Messages Preferences -->
     <string name="data_store">Default data store</string>
+    <string name="description">description</string>
+    <string name="title">title</string>
+    <string name="choose_priority">choose priority</string>
 
 </resources>

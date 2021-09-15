@@ -21,6 +21,7 @@ class NotesEntityMapper @Inject constructor() {
 
     fun Note.toNoteEntity(): NoteEntity =
         NoteEntity(
+            id = id.takeIf { it.isNotEmpty() }?.toInt() ?: 0,
             title = title,
             color = colorId,
             date = createDate,
