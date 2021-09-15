@@ -2,7 +2,6 @@ package com.bosha.notespersistencesample.presentation.ui.dashboard.pager
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -11,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bosha.notespersistencesample.R
+import com.bosha.notespersistencesample.data.utils.DataStorePreference
 import com.bosha.notespersistencesample.databinding.FragmentPagerBinding
 import com.bosha.notespersistencesample.domain.common.NotesResult
 import com.bosha.notespersistencesample.domain.entities.Note
@@ -55,6 +55,25 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPagerBinding.bind(view)
 
+        initRecycler()
+
+        job = viewModel.notesList
+            .onEach(::handleResult)
+            .launchInWhenStarted(lifecycleScope)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recyclerAdapter = null
+        binding.rvNotesList.adapter = null
+    }
+
+    private fun initRecycler() {
         recyclerAdapter = NotesRecyclerAdapter().apply {
             setOnEditListener {
                 findNavController().navigate(
@@ -66,66 +85,48 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
                 )
             }
         }
-
         binding.rvNotesList.apply {
             adapter = recyclerAdapter
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             (itemAnimator as? DefaultItemAnimator)?.supportsChangeAnimations = false
         }
-
-            job = viewModel.notesList
-                .onEach(::handleResult)
-                .launchInWhenStarted(lifecycleScope)
-
     }
 
+    private fun handleResult(result: NotesResult) {
+        val adapter = requireNotNull(recyclerAdapter)
+        when (result) {
+            NotesResult.EmptyResult -> {
+                adapter.submitList(emptyList())
+            }
+            is NotesResult.ValidResult -> {
 
-        private fun handleResult(result: NotesResult) {
-            val adapter = requireNotNull(recyclerAdapter)
-            when (result) {
-                NotesResult.EmptyResult -> {
-                    adapter.submitList(emptyList())
-                }
-                is NotesResult.ValidResult -> {
+                val oldListSize = adapter.itemCount
 
-                    val oldListSize = adapter.itemCount
-
-                    when(argNoteType){
-                        Note.Type.DO -> adapter.submitList(result.doList) {
-                            //scroll up when list have new item
-                            result.doList
-                                ?.let {
-                                    if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
-                                }
-                        }
-                        Note.Type.DOING -> adapter.submitList(result.doingList) {
-                            result.doingList
-                                ?.let {
-                                    if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
-                                }
-                        }
-                        Note.Type.DONE -> adapter.submitList(result.doneList) {
-                            result.doneList
-                                ?.let {
-                                    if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
-                                }
-                        }
+                when (argNoteType) {
+                    Note.Type.DO -> adapter.submitList(result.doList) {
+                        //scroll up when list have new item
+                        result.doList
+                            ?.let {
+                                if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
+                            }
+                    }
+                    Note.Type.DOING -> adapter.submitList(result.doingList) {
+                        result.doingList
+                            ?.let {
+                                if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
+                            }
+                    }
+                    Note.Type.DONE -> adapter.submitList(result.doneList) {
+                        result.doneList
+                            ?.let {
+                                if (it.size > oldListSize) binding.rvNotesList.scrollToPosition(0)
+                            }
                     }
                 }
-                NotesResult.EmptySearch -> {
-                }
+            }
+            NotesResult.EmptySearch -> {
             }
         }
-
-        override fun onStop() {
-            super.onStop()
-            job?.cancel()
-        }
-
-        override fun onDestroyView() {
-            super.onDestroyView()
-            recyclerAdapter = null
-            binding.rvNotesList.adapter = null
-        }
     }
+}

@@ -13,13 +13,13 @@ import androidx.navigation.fragment.findNavController
 import com.bosha.notespersistencesample.R
 import com.bosha.notespersistencesample.databinding.FragmentDashboardBinding
 import com.bosha.notespersistencesample.domain.entities.Note
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.bosha.notespersistencesample.presentation.di.MainScreen
 import com.bosha.notespersistencesample.presentation.ui.ViewModelFactory
 import com.bosha.notespersistencesample.presentation.ui.dashboard.pager.TypeNoteAdapter
 import com.bosha.notespersistencesample.presentation.utils.NightModeHelper
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,6 +33,7 @@ class DashboardFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: DashboardViewModel by viewModels { viewModelFactory }
 
+    //Manually stop listen the sharedflow after onStop
     private var job: Job? = null
 
     override fun onAttach(context: Context) {
@@ -71,62 +72,6 @@ class DashboardFragment : Fragment() {
                 R.id.action_dashboardFragment_to_filterDialog
             )
         }
-
-    }
-
-    private fun setUpViewPager() {
-        val tableLayout = binding.tableLayout
-        val viewPager = binding.viewPager
-
-        /**
-         * set tabs titles and icons fot them
-         */
-        val names = mapOf(
-            0 to Note.Type.DO.name,
-            1 to Note.Type.DOING.name,
-            2 to Note.Type.DONE.name,
-        )
-//        val icons = mapOf(
-//            0 to R.drawable.ic_good_mood,
-//            1 to R.drawable.ic_bad_mood
-//        )
-
-
-        viewPager.adapter = TypeNoteAdapter(this)
-
-        TabLayoutMediator(tableLayout, viewPager, true) { tab, pos ->
-            tab.text = names[pos]
-//            tab.setIcon(icons[pos] ?: R.drawable.ic_check_no)
-        }.attach()
-
-
-        /**
-         *  changes listener, simply shows the badge according to the type
-         *  when we adding/editing the note
-         */
-        job = viewModel.changesAlertFlow
-            .onEach {
-                tableLayout.getTabAt(it)?.apply {
-                    orCreateBadge.hasNumber()
-                    badge?.badgeGravity = BadgeDrawable.BOTTOM_START
-                }
-                Log.e("TAG", "get updated type: $it", )
-            }
-            .launchIn(lifecycleScope)
-        //and remove badges
-        tableLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.removeBadge()
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.removeBadge()
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                /***/
-            }
-        })
     }
 
     override fun onStop() {
@@ -139,4 +84,46 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
+    private fun setUpViewPager() {
+        val tableLayout = binding.tableLayout
+        val viewPager = binding.viewPager
+
+        val names = mapOf(
+            0 to Note.Type.DO.name,
+            1 to Note.Type.DOING.name,
+            2 to Note.Type.DONE.name,
+        )
+
+        viewPager.adapter = TypeNoteAdapter(this)
+
+        TabLayoutMediator(tableLayout, viewPager, true) { tab, pos ->
+            tab.text = names[pos]
+        }.attach()
+
+        /**
+         *  changes listener, simply shows the badge according to the type
+         *  when we adding/editing the note
+         */
+        job = viewModel.changesAlertFlow
+            .onEach {
+                tableLayout.getTabAt(it)?.apply {
+                    orCreateBadge.hasNumber()
+                    badge?.badgeGravity = BadgeDrawable.BOTTOM_START
+                }
+                Log.e("TAG", "get updated type: $it")
+            }
+            .launchIn(lifecycleScope)
+        //and remove badges
+        tableLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.removeBadge()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.removeBadge()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+    }
 }

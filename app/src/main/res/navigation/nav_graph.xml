@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_filterDialog"
             app:destination="@id/filterDialog" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 
 

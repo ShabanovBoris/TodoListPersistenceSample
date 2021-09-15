@@ -21,7 +21,7 @@ class NotesLocalDataStoreOpenHelper @Inject constructor(
 ) : NotesLocalDataStore {
 
     init {
-        Log.e("TAG", "NotesLocalDataStoreOpenHelper: created", )
+        Log.e("TAG", "NotesLocalDataStoreOpenHelper: created")
     }
 
     override suspend fun getNotes(): Flow<List<Note>> =
@@ -40,11 +40,11 @@ class NotesLocalDataStoreOpenHelper @Inject constructor(
     }
 
     override suspend fun clear() {
-        TODO("Not yet implemented")
+        dao.clear()
     }
 
     override suspend fun deleteNote(noteId: String) {
-        TODO("Not yet implemented")
+        dao.deleteNoteById(noteId)
     }
 
     override suspend fun insertNote(note: Note) {

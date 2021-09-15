@@ -54,18 +54,10 @@ class DataStorePreference(
                 }
             }
         preference.registerOnSharedPreferenceChangeListener(preferenceChangeListener)
-        Log.e(
-            NotesRepositoryMediator::class.java.simpleName,
-            "registerListener()",
-        )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private fun unregisterListener() {
         preference.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
-        Log.e(
-            NotesRepositoryMediator::class.java.simpleName,
-            "unregisterListener()",
-        )
     }
 }

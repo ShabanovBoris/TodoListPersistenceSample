@@ -8,5 +8,4 @@ import com.bosha.notespersistencesample.data.dto.NoteEntity
 abstract class NotesRoomDataBase: RoomDatabase() {
 
     abstract fun notesDao(): NotesRoomDao
-
 }

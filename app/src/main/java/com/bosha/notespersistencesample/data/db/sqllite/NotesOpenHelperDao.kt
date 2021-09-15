@@ -17,4 +17,14 @@ class NotesOpenHelperDao(appContext: Context) {
         db.insertNote(noteEntity)
         _flow.value = db.getNotes()
     }
+
+    fun deleteNoteById(id: String){
+        db.delete(id)
+        _flow.value = db.getNotes()
+    }
+
+    fun clear(){
+        db.clear()
+        _flow.value = db.getNotes()
+    }
 }

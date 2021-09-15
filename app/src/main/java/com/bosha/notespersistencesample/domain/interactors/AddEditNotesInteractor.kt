@@ -6,7 +6,6 @@ import com.bosha.notespersistencesample.domain.repositories.NotesRepository
 class AddEditNotesInteractor(
     private val repository: NotesRepository
 ) {
-
     suspend fun insertNotesCache(list: List<Note>) =
         repository.insertNotesCache(list)
 

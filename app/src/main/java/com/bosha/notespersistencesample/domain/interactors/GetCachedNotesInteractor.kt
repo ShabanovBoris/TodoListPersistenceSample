@@ -4,7 +4,7 @@ import com.bosha.notespersistencesample.domain.common.NotesResult
 import com.bosha.notespersistencesample.domain.repositories.NotesRepository
 import kotlinx.coroutines.flow.*
 
-class GetCachedNotesUseCase(
+class GetCachedNotesInteractor(
     private val repository: NotesRepository
 ) {
 

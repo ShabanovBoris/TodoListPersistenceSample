@@ -6,7 +6,7 @@ import com.bosha.notespersistencesample.data.utils.logError
 import com.bosha.notespersistencesample.domain.entities.Note
 import com.bosha.notespersistencesample.domain.interactors.AddEditNotesInteractor
 import com.practice.domain.interactors.DeleteNotesInteractor
-import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesUseCase
+import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class AdditionViewModel(
     private val addEditNotesInteractor: AddEditNotesInteractor,
     private val deleteNotesInteractor: DeleteNotesInteractor,
-    private val getCachedNotesUseCase: GetCachedNotesUseCase
+    private val getCachedNotesInteractor: GetCachedNotesInteractor
 ) : ViewModel() {
 
     private val handler = CoroutineExceptionHandler(::logError)

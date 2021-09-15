@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.requireViewById
 import androidx.core.view.forEach
 import androidx.core.view.get
@@ -45,8 +44,9 @@ class AdditionFragment : Fragment() {
         arguments?.getParcelable<Note>(KEY_NOTE_ARG)
     }
 
-    //color that picked after click on colorPicker
-    var checkedColor: Int? = null
+    private var checkedColor: Int? = null
+    private var isTypeChanged = false
+    private var title = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -77,16 +77,23 @@ class AdditionFragment : Fragment() {
         initSpinner()
         initColorPicker()
         //if edit mode enabled, fill in the fields with the note data
-        if (isEdit) initFields()
-        //submit handler
-        setSubmitListener()
-        //handle add/edit/delete state as ActonState
+        if (isEdit) onEditInitFields()
+        setUpSubmitButton()
+
+        binding.rgType.setOnCheckedChangeListener { _, _ -> isTypeChanged = true }
+
         viewModel.actionStateFlow
             .onEach(::actionStateHandle)
             .launchIn(lifecycleScope)
     }
 
-    private fun setSubmitListener() {
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setUpSubmitButton() {
         binding.bSubmit.setOnClickListener {
             if (validateFields()) {
                 binding.apply {
@@ -104,16 +111,18 @@ class AdditionFragment : Fragment() {
                             ).text.toString().uppercase()
                         ).ordinal
                     )
+                    if (isTypeChanged) viewModel.delete(note.id)
                     viewModel.addNote(note)
                 }
             }
         }
     }
 
-    private fun initFields() {
+    private fun onEditInitFields() {
         val note = requireNotNull(noteArgument)
         binding.apply {
-            tvTitle.editText?.text?.append(note.title)
+            title = note.title
+            tvTitle.editText?.text?.append(title)
             etDescription.editText?.text?.append(note.description)
             rgType.check(rgType[note.type].id)
             binding.priorityDropdown.setText(
@@ -123,7 +132,7 @@ class AdditionFragment : Fragment() {
             checkedColor = note.colorId
             tvCreateDate.append(" ${Date(note.createDate).toISOFormat()}")
             bColorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
-            //and set listener to the delete button
+
             binding.bDelete.setOnClickListener {
                 viewModel.delete(note.id)
             }
@@ -181,11 +190,6 @@ class AdditionFragment : Fragment() {
                 Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)
                     .show()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

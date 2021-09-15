@@ -4,17 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bosha.notespersistencesample.data.utils.logError
 import com.bosha.notespersistencesample.domain.common.NotesResult
-import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesUseCase
+import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.*
 
 class DashboardViewModel(
-    private val getCachedNotesUseCase: GetCachedNotesUseCase
+    private val getCachedNotesInteractor: GetCachedNotesInteractor
 ) : ViewModel() {
 
 
+    /**
+     * Just returns type of latest changed item
+     */
     val changesAlertFlow: SharedFlow<Int> by lazy(LazyThreadSafetyMode.NONE) {
-        flow { emitAll(getCachedNotesUseCase.getNotesCache()) }
+        flow { emitAll(getCachedNotesInteractor.getNotesCache()) }
             .distinctUntilChanged()
             //drop initial emit
             .drop(1)

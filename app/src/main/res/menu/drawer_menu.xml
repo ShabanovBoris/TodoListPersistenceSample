@@ -17,11 +17,9 @@
 
 
     <group android:id="@+id/clearDataGroup">
-
         <item
             android:id="@+id/clearData"
             android:icon="@drawable/ic_delete"
             android:title="@string/clear_data" />
-
     </group>
 </menu>

@@ -15,5 +15,4 @@ interface NotesRepository {
     suspend fun clearCache()
 
     suspend fun deleteFromCache(noteId: String)
-
 }

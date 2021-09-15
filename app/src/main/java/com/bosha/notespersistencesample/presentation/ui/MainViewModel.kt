@@ -6,22 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.bosha.notespersistencesample.data.utils.logError
 import com.bosha.notespersistencesample.domain.common.NotesResult
 import com.practice.domain.interactors.DeleteNotesInteractor
-import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesUseCase
+import com.bosha.notespersistencesample.domain.interactors.GetCachedNotesInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val deleteNotesInteractor: DeleteNotesInteractor,
-    private val getCachedNotesUseCase: GetCachedNotesUseCase
+    private val getCachedNotesInteractor: GetCachedNotesInteractor
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler(::logError)
 
-    private val _notesList =
-        MutableSharedFlow<NotesResult>(1, 0, BufferOverflow.DROP_OLDEST)
-    val notesList get() = _notesList.asSharedFlow()
+    private val _notesList = MutableStateFlow<NotesResult>(NotesResult.EmptyResult)
+    val notesList get() = _notesList.asStateFlow()
 
     // region search parameters
     var mOnlyNotCompleted = false
@@ -34,19 +32,17 @@ class MainViewModel(
     }
 
     private fun initList() = viewModelScope.launch(exceptionHandler) {
-        launch {
             getNotesCache()
-        }
     }
 
-    private suspend fun getNotesCache() = viewModelScope.launch(exceptionHandler) {
-        getCachedNotesUseCase.getNotesCache()
+    private fun getNotesCache() = viewModelScope.launch(exceptionHandler) {
+        getCachedNotesInteractor.getNotesCache()
             .combine(filter(mSearchByTitle)) { origin, afterFilter ->
                 if (afterFilter is NotesResult.ValidResult || afterFilter is NotesResult.EmptyResult) {
                     return@combine afterFilter
                 } else origin
             }.collect {
-                _notesList.emit(it)
+                _notesList.value = it
             }
     }
 
@@ -73,7 +69,12 @@ class MainViewModel(
         deleteNotesInteractor.clearCache()
     }
 
-    private suspend fun filter(noteTitle: String): Flow<NotesResult> = getCachedNotesUseCase.getNotesCache()
+    fun onDataStoreChanged() {
+        getNotesCache()
+        Log.e("TAG", "onDataStoreChanged: ", )
+    }
+
+    private suspend fun filter(noteTitle: String): Flow<NotesResult> = getCachedNotesInteractor.getNotesCache()
         .onEach { mSearchByTitle = noteTitle }
         .map { noteResult ->
             if (noteResult is NotesResult.ValidResult) {

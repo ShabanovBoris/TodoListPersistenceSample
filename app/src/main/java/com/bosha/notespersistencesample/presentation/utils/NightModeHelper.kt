@@ -20,28 +20,20 @@ import com.bosha.notespersistencesample.R
 class NightModeHelper(
     private val context: Context
 ) {
-    companion object{
-        private const val MODE = "mode"
-        private const val NIGHT_YES = Configuration.UI_MODE_NIGHT_YES
-        private const val NIGHT_NO = Configuration.UI_MODE_NIGHT_NO
-        private const val UNDEFINED = Configuration.UI_MODE_NIGHT_UNDEFINED
-    }
-
     private var prefs: SharedPreferences =
-        context.getSharedPreferences("ModeNightDay", Context.MODE_PRIVATE)
+        context.getSharedPreferences(KEY_NIGHT_MODE_PREFS, Context.MODE_PRIVATE)
     private val nightModeFlags = context.resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK
 
     fun setUpNightModePreference() {
 
-        if (prefs.contains(MODE)) {
-            when (prefs.getInt(MODE, UNDEFINED)) {
+        if (prefs.contains(KEY_MODE)) {
+            when (prefs.getInt(KEY_MODE, UNDEFINED)) {
 
                 NIGHT_YES -> {
                     if (nightModeFlags != NIGHT_YES)
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
-
                 NIGHT_NO -> {
                     if (nightModeFlags != NIGHT_NO)
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -54,17 +46,17 @@ class NightModeHelper(
             when (nightModeFlags) {
                 NIGHT_YES -> {
                     prefs.edit {
-                        putInt(MODE, NIGHT_YES)
+                        putInt(KEY_MODE, NIGHT_YES)
                     }
                 }
                 NIGHT_NO -> {
                     prefs.edit {
-                        putInt(MODE, NIGHT_NO)
+                        putInt(KEY_MODE, NIGHT_NO)
                     }
                 }
                 UNDEFINED -> {
                     prefs.edit {
-                        putInt(MODE, UNDEFINED)
+                        putInt(KEY_MODE, UNDEFINED)
                     }
                 }
             }
@@ -80,7 +72,7 @@ class NightModeHelper(
      */
     fun setUpNightSwitcher(toolBar: androidx.appcompat.widget.Toolbar) {
         val icon = toolBar.menu.findItem(R.id.night_mode_menu_icon)
-        val mode = prefs.getInt(MODE, UNDEFINED)
+        val mode = prefs.getInt(KEY_MODE, UNDEFINED)
         //setup icons
         when (mode) {
             NIGHT_NO -> icon.setIcon(R.drawable.ic_dark_mode)
@@ -91,13 +83,13 @@ class NightModeHelper(
                 when (mode) {
                     NIGHT_NO -> {
                         prefs.edit {
-                            putInt(MODE, NIGHT_YES)
+                            putInt(KEY_MODE, NIGHT_YES)
                         }
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     }
                     NIGHT_YES -> {
                         prefs.edit {
-                            putInt(MODE, NIGHT_NO)
+                            putInt(KEY_MODE, NIGHT_NO)
                         }
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     }
@@ -108,5 +100,13 @@ class NightModeHelper(
 
             return@setOnMenuItemClickListener true
         }
+    }
+
+    companion object{
+        private const val KEY_NIGHT_MODE_PREFS = "ModeNightDay"
+        private const val KEY_MODE = "mode"
+        private const val NIGHT_YES = Configuration.UI_MODE_NIGHT_YES
+        private const val NIGHT_NO = Configuration.UI_MODE_NIGHT_NO
+        private const val UNDEFINED = Configuration.UI_MODE_NIGHT_UNDEFINED
     }
 }

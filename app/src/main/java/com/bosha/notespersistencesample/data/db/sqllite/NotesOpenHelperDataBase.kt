@@ -1,8 +1,8 @@
 package com.bosha.notespersistencesample.data.db.sqllite
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.DatabaseErrorHandler
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -83,5 +83,16 @@ class NotesSQLiteDBHelper(appContext: Context) : SQLiteOpenHelper(
         }
 
         writableDatabase.insert(DbContract.TABLE_NAME, null, content)
+    }
+
+    fun delete(id: String) {
+        val selection = "${DbContract.COLUMN_ID} LIKE ?"
+        val selectionArgs = arrayOf(id)
+        writableDatabase.delete(DbContract.TABLE_NAME, selection, selectionArgs)
+    }
+
+
+    fun clear(){
+        writableDatabase.execSQL("DELETE FROM ${DbContract.TABLE_NAME}")
     }
 }
